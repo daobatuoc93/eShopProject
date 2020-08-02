@@ -10,13 +10,17 @@ namespace APPShopProject.DATA.Entity
     public class Product
     {
        
-        public int Id { get; set; }
+        public int ProductId { get; set; }
         public decimal  Price { get; set; }
         public decimal  OriginalPrice { get; set; }
-        public int stock { get; set; }
-        public int View { get; set; }
+        public int Stock { get; set; }
+        public int ViewCount { get; set; }
         public DateTime Datecreate { get; set; }
 //        [Required]
         public string SeoAlias { get; set; }
+        public List<OrderDetail> OrderDetails { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
+        public List<ProductInCategory> ProductInCategories { get; set; }
+        public List<ProductTranslation> ProductTranslations { get; set; }
     }
 }

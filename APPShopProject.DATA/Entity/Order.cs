@@ -1,4 +1,5 @@
-﻿using System;
+﻿using APPShopProject.DATA.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
