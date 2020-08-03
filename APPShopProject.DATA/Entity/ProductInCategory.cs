@@ -10,5 +10,5 @@ namespace APPShopProject.DATA.Entity
         public Product Product { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-    }
+    }//F:\eShopLearn\eShopProject\APPShopProject.DATA\Entity\ProductInCategory.cs
 }

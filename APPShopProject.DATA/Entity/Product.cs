@@ -16,7 +16,8 @@ namespace APPShopProject.DATA.Entity
         public int Stock { get; set; }
         public int ViewCount { get; set; }
         public DateTime Datecreate { get; set; }
-//        [Required]
+        //        [Required]
+        public List<Cart> Carts { get; set; }
         public string SeoAlias { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<ProductImage> ProductImages { get; set; }
