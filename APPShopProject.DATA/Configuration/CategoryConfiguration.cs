@@ -13,8 +13,10 @@ namespace APPShopProject.DATA.Configuration
         public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.ToTable("Category Table");
-            builder.HasKey(x => x.CategoryId);
+            builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.Status).HasDefaultValue(Status.Active);
+
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APPShopProject.DATA.Migrations
 {
     [DbContext(typeof(APPShopProjectDbContext))]
-    [Migration("20200802181230_Initial")]
-    partial class Initial
+    [Migration("20200804075902_Seedingdata")]
+    partial class Seedingdata
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,6 +33,23 @@ namespace APPShopProject.DATA.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("AppConfigs");
+
+                    b.HasData(
+                        new
+                        {
+                            Key = "Home title",
+                            Value = "This is Home Title! of AddShop"
+                        },
+                        new
+                        {
+                            Key = "Home Key",
+                            Value = "This is Home Key! of AddShop"
+                        },
+                        new
+                        {
+                            Key = "Home Description",
+                            Value = "This is Description Home! of AddShop"
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.AppRole", b =>
@@ -161,13 +178,15 @@ namespace APPShopProject.DATA.Migrations
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.Category", b =>
                 {
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("IsShowOnHome")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsShowOnHome")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("ParentID")
                         .HasColumnType("int");
@@ -180,9 +199,25 @@ namespace APPShopProject.DATA.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(1);
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Id");
 
                     b.ToTable("Category Table");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsShowOnHome = true,
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsShowOnHome = true,
+                            SortOrder = 2,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.CategoryTranslation", b =>
@@ -228,6 +263,48 @@ namespace APPShopProject.DATA.Migrations
                     b.HasIndex("LanguageId");
 
                     b.ToTable("CategoryTranslations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            LanguageId = "vi-VN",
+                            Name = "Áo nam",
+                            SeoAlias = "ao-nam",
+                            SeoDescription = "Sản phẩm áo thời trang nam",
+                            SeoTitle = "Sản phẩm áo thời trang nam"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            LanguageId = "en-US",
+                            Name = "Men Shirt",
+                            SeoAlias = "men-shirt",
+                            SeoDescription = "The shirt products for men",
+                            SeoTitle = "The shirt products for men"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 2,
+                            LanguageId = "vi-VN",
+                            Name = "Áo nữ",
+                            SeoAlias = "ao-nu",
+                            SeoDescription = "Sản phẩm áo thời trang nữ",
+                            SeoTitle = "Sản phẩm áo thời trang women"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            LanguageId = "en-US",
+                            Name = "Women Shirt",
+                            SeoAlias = "women-shirt",
+                            SeoDescription = "The shirt products for women",
+                            SeoTitle = "The shirt products for women"
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.Contact", b =>
@@ -284,6 +361,20 @@ namespace APPShopProject.DATA.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "Vi-Vn",
+                            IsDefault = true,
+                            Name = "Tiếng Việt"
+                        },
+                        new
+                        {
+                            Id = "En-Us",
+                            IsDefault = false,
+                            Name = "English"
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.Order", b =>
@@ -350,12 +441,12 @@ namespace APPShopProject.DATA.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("==============OrderDetail table============ ");
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.Product", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:IdentityIncrement", 1)
@@ -371,9 +462,6 @@ namespace APPShopProject.DATA.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("SeoAlias")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Stock")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -384,9 +472,20 @@ namespace APPShopProject.DATA.Migrations
                         .HasColumnType("int")
                         .HasDefaultValue(0);
 
-                    b.HasKey("ProductId");
+                    b.HasKey("Id");
 
                     b.ToTable("Table of products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Datecreate = new DateTime(2020, 8, 4, 14, 59, 2, 157, DateTimeKind.Local).AddTicks(6871),
+                            OriginalPrice = 95000m,
+                            Price = 200000m,
+                            Stock = 0,
+                            ViewCount = 0
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.ProductImage", b =>
@@ -441,7 +540,14 @@ namespace APPShopProject.DATA.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("===========Product In Categories!==========");
+                    b.ToTable("ProductInCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.ProductTranslation", b =>
@@ -492,6 +598,30 @@ namespace APPShopProject.DATA.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductTranslations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Details = "Áo sơ mi nam màu trấng size M",
+                            LanguageId = "Vi-vn",
+                            Name = "Áo sơ mi nam",
+                            ProductId = 1,
+                            SeoAlias = "ao-nam",
+                            SeoDescription = "Sản phẩm áo thời trang nam",
+                            SeoTitle = ""
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Details = "White T-Shirt for man size M",
+                            LanguageId = "En-Us",
+                            Name = "Man T-Shirt",
+                            ProductId = 1,
+                            SeoAlias = "t-shirt",
+                            SeoDescription = "T-Shirt product for man",
+                            SeoTitle = ""
+                        });
                 });
 
             modelBuilder.Entity("APPShopProject.DATA.Entity.Promotion", b =>

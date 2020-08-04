@@ -33,6 +33,7 @@ namespace eShopProject
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 app.UseExceptionHandler("/Home/Error");

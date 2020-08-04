@@ -1,5 +1,6 @@
 ﻿using APPShopProject.DATA.Configuration;
 using APPShopProject.DATA.Entity;
+using APPShopProject.DATA.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace APPShopProject.DATA.EF
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Configure using Fluent API
             modelBuilder.ApplyConfiguration(new CartConfiguration());
             modelBuilder.ApplyConfiguration(new AppConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
@@ -31,7 +33,13 @@ namespace APPShopProject.DATA.EF
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
-
+            //Data Seeding
+            //modelBuilder.Entity<AppConfig>().HasData(
+            //    new AppConfig() { Key = "Home Title", Value = "This is home page of APPSHOP!" },
+            //    new AppConfig() { Key = "Home Key", Value = "This is Key of APPSHOP!" },
+            //    new AppConfig() { Key = "Home Description", Value = "This is home Description of APPSHOP!" }
+            //    );
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 

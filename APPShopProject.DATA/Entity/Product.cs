@@ -10,7 +10,7 @@ namespace APPShopProject.DATA.Entity
     public class Product
     {
        
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public decimal  Price { get; set; }
         public decimal  OriginalPrice { get; set; }
         public int Stock { get; set; }
@@ -18,7 +18,6 @@ namespace APPShopProject.DATA.Entity
         public DateTime Datecreate { get; set; }
         //        [Required]
         public List<Cart> Carts { get; set; }
-        public string SeoAlias { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<ProductImage> ProductImages { get; set; }
         public List<ProductInCategory> ProductInCategories { get; set; }

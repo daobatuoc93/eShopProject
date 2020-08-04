@@ -11,7 +11,7 @@ namespace APPShopProject.DATA.Configuration
     {
         public void Configure(EntityTypeBuilder<OrderDetail> builder)
         {
-            builder.ToTable("==============OrderDetail table============ ");
+            builder.ToTable("OrderDetail");
             builder.HasKey(x => new { x.OrderId, x.ProductId });
             builder.HasOne(x => x.Product).WithMany(v=>v.OrderDetails).HasForeignKey(k=>k.ProductId);
             builder.HasOne(p => p.Order)

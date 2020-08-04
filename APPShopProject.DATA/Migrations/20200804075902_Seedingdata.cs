@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace APPShopProject.DATA.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Seedingdata : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -66,16 +66,16 @@ namespace APPShopProject.DATA.Migrations
                 name: "Category Table",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SortOrder = table.Column<int>(nullable: false),
-                    IsShowOnHome = table.Column<int>(nullable: false),
+                    IsShowOnHome = table.Column<bool>(nullable: false),
                     ParentID = table.Column<int>(nullable: true),
                     Status = table.Column<int>(nullable: false, defaultValue: 1)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Category Table", x => x.CategoryId);
+                    table.PrimaryKey("PK_Category Table", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,18 +133,17 @@ namespace APPShopProject.DATA.Migrations
                 name: "Table of products",
                 columns: table => new
                 {
-                    ProductId = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Price = table.Column<decimal>(nullable: false),
                     OriginalPrice = table.Column<decimal>(nullable: false),
                     Stock = table.Column<int>(nullable: false, defaultValue: 0),
                     ViewCount = table.Column<int>(nullable: false, defaultValue: 0),
-                    Datecreate = table.Column<DateTime>(nullable: false),
-                    SeoAlias = table.Column<string>(nullable: true)
+                    Datecreate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Table of products", x => x.ProductId);
+                    table.PrimaryKey("PK_Table of products", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,37 +218,13 @@ namespace APPShopProject.DATA.Migrations
                         name: "FK_CategoryTranslations_Category Table_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Category Table",
-                        principalColumn: "CategoryId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_CategoryTranslations_Languages_LanguageId",
                         column: x => x.LanguageId,
                         principalTable: "Languages",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "===========Product In Categories!==========",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_===========Product In Categories!==========", x => new { x.CategoryId, x.ProductId });
-                    table.ForeignKey(
-                        name: "FK_===========Product In Categories!==========_Category Table_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Category Table",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_===========Product In Categories!==========_Table of products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Table of products",
-                        principalColumn: "ProductId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -272,7 +247,7 @@ namespace APPShopProject.DATA.Migrations
                         name: "FK_Carts_Table of products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Table of products",
-                        principalColumn: "ProductId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Carts_AppUsers_UserId",
@@ -303,7 +278,31 @@ namespace APPShopProject.DATA.Migrations
                         name: "FK_ProductImages_Table of products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Table of products",
-                        principalColumn: "ProductId",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductInCategories",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductInCategories", x => new { x.CategoryId, x.ProductId });
+                    table.ForeignKey(
+                        name: "FK_ProductInCategories_Category Table_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category Table",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductInCategories_Table of products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Table of products",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -335,12 +334,12 @@ namespace APPShopProject.DATA.Migrations
                         name: "FK_ProductTranslations_Table of products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Table of products",
-                        principalColumn: "ProductId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "==============OrderDetail table============ ",
+                name: "OrderDetail",
                 columns: table => new
                 {
                     OrderId = table.Column<int>(nullable: false),
@@ -350,30 +349,78 @@ namespace APPShopProject.DATA.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_==============OrderDetail table============ ", x => new { x.OrderId, x.ProductId });
+                    table.PrimaryKey("PK_OrderDetail", x => new { x.OrderId, x.ProductId });
                     table.ForeignKey(
-                        name: "FK_==============OrderDetail table============ _Orders_OrderId",
+                        name: "FK_OrderDetail_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_==============OrderDetail table============ _Table of products_ProductId",
+                        name: "FK_OrderDetail_Table of products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Table of products",
-                        principalColumn: "ProductId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_==============OrderDetail table============ _ProductId",
-                table: "==============OrderDetail table============ ",
-                column: "ProductId");
+            migrationBuilder.InsertData(
+                table: "AppConfigs",
+                columns: new[] { "Key", "Value" },
+                values: new object[,]
+                {
+                    { "Home title", "This is Home Title! of AddShop" },
+                    { "Home Key", "This is Home Key! of AddShop" },
+                    { "Home Description", "This is Description Home! of AddShop" }
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_===========Product In Categories!==========_ProductId",
-                table: "===========Product In Categories!==========",
-                column: "ProductId");
+            migrationBuilder.InsertData(
+                table: "Category Table",
+                columns: new[] { "Id", "IsShowOnHome", "ParentID", "SortOrder", "Status" },
+                values: new object[,]
+                {
+                    { 1, true, null, 1, 1 },
+                    { 2, true, null, 2, 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Languages",
+                columns: new[] { "Id", "IsDefault", "Name" },
+                values: new object[,]
+                {
+                    { "Vi-Vn", true, "Tiếng Việt" },
+                    { "En-Us", false, "English" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Table of products",
+                columns: new[] { "Id", "Datecreate", "OriginalPrice", "Price" },
+                values: new object[] { 1, new DateTime(2020, 8, 4, 14, 59, 2, 157, DateTimeKind.Local).AddTicks(6871), 95000m, 200000m });
+
+            migrationBuilder.InsertData(
+                table: "CategoryTranslations",
+                columns: new[] { "Id", "CategoryId", "LanguageId", "Name", "SeoAlias", "SeoDescription", "SeoTitle" },
+                values: new object[,]
+                {
+                    { 1, 1, "vi-VN", "Áo nam", "ao-nam", "Sản phẩm áo thời trang nam", "Sản phẩm áo thời trang nam" },
+                    { 2, 1, "en-US", "Men Shirt", "men-shirt", "The shirt products for men", "The shirt products for men" },
+                    { 3, 2, "vi-VN", "Áo nữ", "ao-nu", "Sản phẩm áo thời trang nữ", "Sản phẩm áo thời trang women" },
+                    { 4, 2, "en-US", "Women Shirt", "women-shirt", "The shirt products for women", "The shirt products for women" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ProductInCategories",
+                columns: new[] { "CategoryId", "ProductId" },
+                values: new object[] { 1, 1 });
+
+            migrationBuilder.InsertData(
+                table: "ProductTranslations",
+                columns: new[] { "Id", "Description", "Details", "LanguageId", "Name", "ProductId", "SeoAlias", "SeoDescription", "SeoTitle" },
+                values: new object[,]
+                {
+                    { 1, null, "Áo sơ mi nam màu trấng size M", "Vi-vn", "Áo sơ mi nam", 1, "ao-nam", "Sản phẩm áo thời trang nam", "" },
+                    { 2, null, "White T-Shirt for man size M", "En-Us", "Man T-Shirt", 1, "t-shirt", "T-Shirt product for man", "" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_ProductId",
@@ -396,6 +443,11 @@ namespace APPShopProject.DATA.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderDetail_ProductId",
+                table: "OrderDetail",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
                 table: "Orders",
                 column: "UserId");
@@ -403,6 +455,11 @@ namespace APPShopProject.DATA.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProductImages_ProductId",
                 table: "ProductImages",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductInCategories_ProductId",
+                table: "ProductInCategories",
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
@@ -424,12 +481,6 @@ namespace APPShopProject.DATA.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "==============OrderDetail table============ ");
-
-            migrationBuilder.DropTable(
-                name: "===========Product In Categories!==========");
-
-            migrationBuilder.DropTable(
                 name: "AppConfigs");
 
             migrationBuilder.DropTable(
@@ -445,7 +496,13 @@ namespace APPShopProject.DATA.Migrations
                 name: "Contacts");
 
             migrationBuilder.DropTable(
+                name: "OrderDetail");
+
+            migrationBuilder.DropTable(
                 name: "ProductImages");
+
+            migrationBuilder.DropTable(
+                name: "ProductInCategories");
 
             migrationBuilder.DropTable(
                 name: "ProductTranslations");
